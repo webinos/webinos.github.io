@@ -1,0 +1,49 @@
+TODO: Update with contacts API usage
+
+Google Contacts:
+safeyGetImages method will get the image for the contact index id. It will retry if it fails due to restriction of the service. It has a param contactId. [More about this issue](https://groups.google.com/d/topic/google-contacts-api/qTjcz_wo68k/discussion)
+                 
+        self.safelyGetImages = function (contactId) {
+            var contact = self.contacts[contactId];
+            if (contact.link[0] && contact.link[0]["gd$etag"]) 
+            {
+                var googleName = "https://www.google.com";
+                var photo_url = contact.link[0].href.substr(googleName.length);
+                var photoGet =
+                {
+                    host: 'www.google.com',
+                    path: photo_url,
+                    port: 443,
+                    method:'GET',
+                    headers:{
+                        'Authorization': params[0].token_type + ' ' + params[0].access_token
+                    }
+                };
+
+It will collect all the processed contacts and store them in the right order (the one we received them. It will return the processed contact list to the seccussCB when all contacts are done.
+param contactIndex - contacts with id attribute that match this supplied attribute match the    filtering criteria.
+param contact - contacts with name attribute that match this supplied attribute match the filtering criteria.
+        
+        self.getWebinosContact = function(contactIndex, contact){
+            self.contact_list[contactIndex] = contact;
+            processedContacts++;
+            if (processedContacts == self.totalContacts)
+                successCB(self.contact_list);
+        };
+
+Local Contacts:
+Pass methods to the above levels using this Constructor
+
+        this.contacts = localcontacts.contacts;
+
+Open open(<path-to-mab-addressbook>) - returns true if opening the address book was succesfull
+
+        this.open = localcontacts.open;
+
+true if a valid mab file has been loaded
+
+        this.isOpen = localcontacts.isOpen;
+
+get all address book contacts
+
+        this.getAB= localcontacts.getAB;

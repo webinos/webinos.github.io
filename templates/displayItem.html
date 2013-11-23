@@ -1,0 +1,28 @@
+﻿<section>
+    <header>{{name}}<span class="keywords pull-right">Keywords: {{keywords}}</span></header>
+   
+    <a class="btn btn-default pull-right btn-text-icon" href="https://github.com/webinos/{{repositoryName}}" target="_blank"><span class="glyphicon glyphicon-align-justify"></span>View source</a>
+    <div class="btn-group pull-right withMargin">
+        <button type="button" class="btn btn-primary btn-text-icon dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-pencil"></span>Improve this info <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="https://github.com/webinos/{{repositoryName}}/blob/master/README.md" target="_blank">Description</a></li>
+            <li data-ng-if="specificationName"><a href="https://github.com/webinos/webinos-api-specifications/blob/master/sources/widl/{{specificationName}}.widl" target="_blank">Specification</a></li>
+            <li><a href="https://github.com/webinos/{{repositoryName}}/wiki/Examples" target="_blank">Examples</a></li>
+        </ul>
+    </div>
+    <ul class="nav nav-tabs">
+        <li data-ng-class="{active: activeTab == 'descr'}"><a data-ng-click="activeTab='descr'">Description</a></li>
+        <li data-ng-show="specificationName" data-ng-class="{active: activeTab == 'specs'}"><a data-ng-click="activeTab='specs'">Specification</a></li>
+        <li data-ng-class="{active: activeTab == 'example'}"><a data-ng-click="activeTab='example'">Examples</a></li>
+    </ul>
+    <div class="tab-panel">
+        <div data-ng-if="activeTab == 'descr'" data-md-include="{{repositoryName + '.Readme'}}"></div>
+        <div data-ng-if="specificationName && activeTab == 'specs'" class="iFrameContainer" data-specs-include="{{specificationName}}"></div>
+        <div data-ng-if="activeTab == 'example'" data-md-include="{{repositoryName + '.Examples'}}">3</div>
+        <hr />
+        <header>Discussion</header>
+        <div id="disqus_thread"></div>
+    </div>
+</section>

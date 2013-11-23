@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{D7E2531E-7D70-4E53-B0E5-3DA4C9FCAD66}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <OutputPath>bin</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="css\app.css">
+      <DependentUpon>app.less</DependentUpon>
+    </Content>
+    <Content Include="css\app.min.css">
+      <DependentUpon>app.less</DependentUpon>
+    </Content>
+    <Content Include="css\bootstrap.custom.css">
+      <DependentUpon>bootstrap.custom.less</DependentUpon>
+    </Content>
+    <Content Include="css\bootstrap.custom.min.css">
+      <DependentUpon>bootstrap.custom.less</DependentUpon>
+    </Content>
+    <Content Include="css\images\loader.gif" />
+    <Content Include="css\images\webinos_logo.png" />
+    <Content Include="index.html" />
+    <TypeScriptCompile Include="scripts\Definitions\Showdown.d.ts" />
+    <TypeScriptCompile Include="scripts\configuration.ts" />
+    <Content Include="mdfiles\getMdFiles.js" />
+    <Content Include="scripts\Definitions\Showdown.d.js">
+      <DependentUpon>Showdown.d.ts</DependentUpon>
+    </Content>
+    <TypeScriptCompile Include="scripts\setupDisplays.ts" />
+    <Content Include="templates\APIs.html" />
+    <Content Include="templates\displayItem.html" />
+    <Content Include="templates\Core.html" />
+    <Content Include="ThirdParty\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="ThirdParty\bootstrap\js\dropdown.js" />
+    <Content Include="ThirdParty\bootstrap\less\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\bootstrap\less\variables.min.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\DefinitelyTyped\angularjs\angular.d.ts" />
+    <Content Include="ThirdParty\DefinitelyTyped\node\node.d.ts" />
+    <Content Include="ThirdParty\jQuery.js" />
+    <Content Include="ThirdParty\jQuery.min.js">
+      <DependentUpon>jQuery.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\DefinitelyTyped\jquery\jquery.d.ts" />
+    <Content Include="ThirdParty\Angular\angular-animate.js" />
+    <Content Include="ThirdParty\Angular\angular-animate.min.js">
+      <DependentUpon>angular-animate.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-cookies.js" />
+    <Content Include="ThirdParty\Angular\angular-cookies.min.js">
+      <DependentUpon>angular-cookies.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-csp.css" />
+    <Content Include="ThirdParty\Angular\angular-loader.js" />
+    <Content Include="ThirdParty\Angular\angular-loader.min.js">
+      <DependentUpon>angular-loader.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-mocks.js" />
+    <Content Include="ThirdParty\Angular\angular-mocks.min.js">
+      <DependentUpon>angular-mocks.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-resource.js" />
+    <Content Include="ThirdParty\Angular\angular-resource.min.js">
+      <DependentUpon>angular-resource.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-route.js" />
+    <Content Include="ThirdParty\Angular\angular-route.min.js">
+      <DependentUpon>angular-route.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-sanitize.js" />
+    <Content Include="ThirdParty\Angular\angular-sanitize.min.js">
+      <DependentUpon>angular-sanitize.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-scenario.js" />
+    <Content Include="ThirdParty\Angular\angular-scenario.min.js">
+      <DependentUpon>angular-scenario.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular-touch.js" />
+    <Content Include="ThirdParty\Angular\angular-touch.min.js">
+      <DependentUpon>angular-touch.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\Angular\angular.js" />
+    <Content Include="ThirdParty\Angular\angular.min.js">
+      <DependentUpon>angular.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\errors.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-animate.min.js.map">
+      <DependentUpon>angular-animate.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-cookies.min.js.map">
+      <DependentUpon>angular-cookies.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-loader.min.js.map">
+      <DependentUpon>angular-loader.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-mocks.min.js.map">
+      <DependentUpon>angular-mocks.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-resource.min.js.map">
+      <DependentUpon>angular-resource.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-route.min.js.map">
+      <DependentUpon>angular-route.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-sanitize.min.js.map">
+      <DependentUpon>angular-sanitize.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-scenario.min.js.map">
+      <DependentUpon>angular-scenario.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular-touch.min.js.map">
+      <DependentUpon>angular-touch.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\Angular\angular.min.js.map">
+      <DependentUpon>angular.js</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\app.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ThirdParty\showdown\src\showdown.js" />
+    <Content Include="ThirdParty\bootstrap\less\alerts.less" />
+    <Content Include="ThirdParty\bootstrap\less\badges.less" />
+    <Content Include="ThirdParty\bootstrap\less\bootstrap.less" />
+    <Content Include="ThirdParty\bootstrap\less\breadcrumbs.less" />
+    <Content Include="ThirdParty\bootstrap\less\button-groups.less" />
+    <Content Include="ThirdParty\bootstrap\less\buttons.less" />
+    <Content Include="ThirdParty\bootstrap\less\carousel.less" />
+    <Content Include="ThirdParty\bootstrap\less\close.less" />
+    <Content Include="ThirdParty\bootstrap\less\code.less" />
+    <Content Include="ThirdParty\bootstrap\less\component-animations.less" />
+    <Content Include="ThirdParty\bootstrap\less\dropdowns.less" />
+    <Content Include="ThirdParty\bootstrap\less\forms.less" />
+    <Content Include="ThirdParty\bootstrap\less\glyphicons.less" />
+    <Content Include="ThirdParty\bootstrap\less\grid.less" />
+    <Content Include="ThirdParty\bootstrap\less\input-groups.less" />
+    <Content Include="ThirdParty\bootstrap\less\jumbotron.less" />
+    <Content Include="ThirdParty\bootstrap\less\labels.less" />
+    <Content Include="ThirdParty\bootstrap\less\list-group.less" />
+    <Content Include="ThirdParty\bootstrap\less\media.less" />
+    <Content Include="ThirdParty\bootstrap\less\mixins.less" />
+    <Content Include="ThirdParty\bootstrap\less\modals.less" />
+    <Content Include="ThirdParty\bootstrap\less\navbar.less" />
+    <Content Include="ThirdParty\bootstrap\less\navs.less" />
+    <Content Include="ThirdParty\bootstrap\less\normalize.less" />
+    <Content Include="ThirdParty\bootstrap\less\pager.less" />
+    <Content Include="ThirdParty\bootstrap\less\pagination.less" />
+    <Content Include="ThirdParty\bootstrap\less\panels.less" />
+    <Content Include="ThirdParty\bootstrap\less\popovers.less" />
+    <Content Include="ThirdParty\bootstrap\less\print.less" />
+    <Content Include="ThirdParty\bootstrap\less\progress-bars.less" />
+    <Content Include="ThirdParty\bootstrap\less\responsive-utilities.less" />
+    <Content Include="ThirdParty\bootstrap\less\scaffolding.less" />
+    <Content Include="ThirdParty\bootstrap\less\tables.less" />
+    <Content Include="ThirdParty\bootstrap\less\theme.less" />
+    <Content Include="ThirdParty\bootstrap\less\thumbnails.less" />
+    <Content Include="ThirdParty\bootstrap\less\tooltip.less" />
+    <Content Include="ThirdParty\bootstrap\less\type.less" />
+    <Content Include="ThirdParty\bootstrap\less\utilities.less" />
+    <Content Include="ThirdParty\bootstrap\less\variables.less" />
+    <Content Include="ThirdParty\bootstrap\less\wells.less" />
+    <Content Include="css\bootstrap.custom.less" />
+    <Content Include="ThirdParty\jQuery.min.js.map">
+      <DependentUpon>jQuery.js</DependentUpon>
+    </Content>
+    <Content Include="ThirdParty\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="ThirdParty\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="ThirdParty\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="scripts\app.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="scripts\Globals.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>webinosdocs</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58452</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:58145/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>true</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <TypeScriptTarget>ES3</TypeScriptTarget>
+    <TypeScriptIncludeComments>false</TypeScriptIncludeComments>
+    <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TypeScript\Microsoft.TypeScript.targets" />
+</Project>

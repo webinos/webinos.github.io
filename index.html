@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en"
+xmlns:ng="http://angularjs.org/"
+data-ng-app="app" data-ng-controller="main">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title data-ng-bind="title">webinos documentation</title>
+    <meta name="Description" content="webinos documentation for developers"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- Help crawlers to read this site (see route config in app) -->
+    <meta name="fragment" content="!" />
+    <link  href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'/>
+    <link rel="stylesheet" href="css/bootstrap.custom.css" type="text/css" />
+    <link rel="stylesheet" href="css/app.css" type="text/css" />
+</head>
+<body>
+    <noscript>
+        <div>
+            Your web browser must have JavaScript enabled in order for this application to display correctly.
+        </div>
+    </noscript>
+    <div class="loader center-block" data-ng-hide="hideLoader">
+        <span data-ng-bind="loaderMessage">Loading...</span>
+        <div class="spinner center-block"></div>
+    </div>
+    <div id="mainContent" class="hidden container">
+        <div class="page-header row">
+            <img alt="webinos" class="pull-left" src="css/images/webinos_logo.png"/><h1 class="pull-left"><a href="/">webinos developer's documentation</a></h1>
+            <div class="btn-group pull-right">
+                  <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">Other resources<span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="http://webinos.org/" target="_blank">Website</a></li>
+                    <li><a href="https://developer.webinos.org/" target="_blank">Developer portal</a></li>
+                    <li class="divider"></li>
+                    <li><a href="https://github.com/webinos/" target="_blank">Platform's source</a></li>
+                    <li><a href="https://github.com/webinos-apps/" target="_blank">Applications' sources</a></li>
+                  </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="well side-bar">
+                    <div class="navbar-form">
+                        <input type="search" class=""
+                               placeholder="Search..."
+                               data-ng-model="q" autocomplete="off" />
+                        <span class="search-btn glyphicon glyphicon-search pull-right"></span>
+                    </div>
+                    <div>
+                        <ul class="nav nav-pills nav-stacked">
+                            <li class="list-group" data-ng-repeat="listItem in SideNavigation"  data-ng-hide="listItem.isFiltered && listItem.filteredSubItems.length==0"  data-ng-class="{active: currentSection == listItem.sectionName}">
+                                <a href="#!{{listItem.link}}" class="list-group-item-heading">{{ listItem.text }}<span data-ng-hide="!listItem.isFiltered" class="badge pull-right">{{listItem.filteredSubItems.length}}</span></a>
+                                <ul class="nav">
+                                    <li data-ng-repeat="subItem in listItem.filteredSubItems|orderBy:'text'"><a href="#!{{subItem.link}}">{{subItem.text}}</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-9" data-ng-view="">Main content</div>
+        </div>
+    </div>
+    <!-- Registers scripts after showing the loader -->
+    <script src="ThirdParty/jQuery.js"></script>
+    <script src="ThirdParty/bootstrap/js/dropdown.js"></script>
+    <script src="ThirdParty/Angular/angular.js"></script>
+    <script src="ThirdParty/Angular/angular-route.js"></script>
+    <script src="ThirdParty/showdown/src/showdown.js"></script>
+    <script src="scripts/configuration.js"></script>
+    <script src="scripts/Globals.js"></script>
+    <script src="scripts/setupDisplays.js"></script>
+    <script src="scripts/app.js"></script>
+    <script type="text/javascript">
+        // Notify app that everything is loaded
+        $(app.loadComplete);
+    </script>
+</body>
+</html>
