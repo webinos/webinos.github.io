@@ -111,11 +111,18 @@ var Configuration;
         },
         {
             name: "Policy",
-            repositoryName: "webinos-api-policy"
+            repositoryName: "webinos-api-policy",
+            keywords: "security, message restriction, privileges"
         },
         {
             name: "Discovery",
-            repositoryName: "webinos-api-serviceDiscovery"
+            repositoryName: "webinos-api-serviceDiscovery",
+            keywords: "discover services"
+        },
+        {
+            name: "Dashboard",
+            repositoryName: "webinos-dashboard",
+            keywords: "explorer, select services, devices, people"
         }
     ];
 

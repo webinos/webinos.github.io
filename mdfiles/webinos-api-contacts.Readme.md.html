@@ -14,7 +14,7 @@ The current implementation of the API support contacts from the following dataso
 
 ## Installation ##
 
-To install the contacts API you will need to install the node module inside the webinos pzp.
+To install the contacts API you will need to npm the node module inside the webinos pzp.
 
 For end users, you can simply open a command prompt in the root of your webinos-pzp and do: 
 
@@ -26,7 +26,7 @@ For developers that want to tweak the API, you should fork this repository and c
 	git clone https://github.com/<your GitHub account>/webinos-api-contacts.git
 	npm install
 
-## Getting a referece to the service ##
+## Getting a reference to the service ##
 
 To discover the contacts api you will have to search for the "http://webinos.org/api/contacts" service. Example:
 
@@ -53,17 +53,12 @@ Alternatively you can use the webinos dashboard to allow the user choose the con
          	service:[
             	'http://webinos.org/api/contacts'
          	],
-            select:"devices"
+            select:"services"
          }
-     }, function successFn(data){
-			if (data.result.length > 0){
-				// User selected some contact APIs
-			}
-	 }, function errorFn(e){
-			// Notify user
-			console.log(e.message);
-	 }
-	);
+     }).onAction(function successFn(data){
+          if (data.result.length > 0){
+          // User selected some contact APIs
+     }});
 
 ## Methods ##
 

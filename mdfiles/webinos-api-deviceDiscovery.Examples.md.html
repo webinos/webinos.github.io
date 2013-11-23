@@ -1,1 +1,36 @@
-<html><body>You are being <a href="https://raw.github.com/webinos/webinos-api-deviceDiscovery">redirected</a>.</body></html>
+Code Snippet
+
+Constructor
+Param rpcHandler is a handler for functions that use RPC to deliver their result.
+
+  var DiscoveryModule = function (rpcHandler) {
+    this.base = RPCWebinosService;
+    this.base({
+      api:'http://webinos.org/api/discovery',
+      displayName:'Discovery manager',
+      description:'Discovery manager that supports Bluetooth and WiFi discovery in Android'
+    });
+  }
+    
+   To find devices that support the specific service - Android WiFi MDNS.
+   param data is the Service type.
+   param successCallback Success callback.
+  
+  if (process.platform == 'android')
+  {
+    DiscoveryModule.prototype.DNSfindservice = function(data, successCallback){
+      dnsmodule.DNSfindservice(data, successCallback);   
+    }
+  }
+        
+ 
+To find Bluetooth Heart Rate Monitor device. For Android OS only.
+    param data is the Service type.
+    param successCallback Success callback.
+   
+  if (process.platform == 'android')
+  {
+    DiscoveryModule.prototype.findHRM = function(data, successCallback){
+      hrmmodule.HRMfindservice(data, successCallback); 
+    }
+  }

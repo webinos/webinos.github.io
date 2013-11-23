@@ -1,1 +1,37 @@
-<html><body>You are being <a href="https://raw.github.com/webinos/webinos-api-applauncher">redirected</a>.</body></html>
+Code Snippets
+## Constructor
+
+- Param rpcHandler is a handler for functions that use RPC to deliver their result.
+- Param params parameters to initialize the service and then to Inherit from RPCWebinosService.
+
+From the wrt:
+
+    var WebinosAppLauncherModule = function(rpcHandler, params) {
+        // inherit from RPCWebinosService
+        this.base = RPCWebinosService;
+        this.base({
+            api:'http://webinos.org/api/applauncher',
+            displayName:'AppLauncher API',
+            description:'The AppLauncher API for starting applications.'
+        });
+    };
+
+## To Launch an application
+
+- param successCB Success callback
+- param errorCB Error callback
+- param appURI URI of application to be launched.
+
+From the wrt:
+
+    WebinosAppLauncherModule.prototype.launchApplication = function (paramsIn, successCB, errorCB){
+        var appURI = paramsIn[0];
+        return impl.launchApplication(appURI,successCB, errorCB);
+    };
+
+## Determines whether an app is available.
+
+    WebinosAppLauncherModule.prototype.appInstalled = function (params, successCB, errorCB){
+        var appURI = params[0];
+        return impl.appInstalled(appURI,successCB,errorCB);
+    };

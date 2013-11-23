@@ -1,1 +1,119 @@
-<html><body>You are being <a href="https://raw.github.com/webinos/webinos-api-iot">redirected</a>.</body></html>
+Code Snippet
+
+Start listening to sensor events and log values. Get list of temperature, fake, OBD, heart rate monitor sensors registered in the device.  If the cmd - command (register, data, ...)
+Is registered, then data is the type of sensor that is connected (temperature, light, OBD)
+
+function driverListener(cmd, id, data) {
+            if (impl == 'iot') {
+                switch(cmd) {
+                    case 'register':
+                        var service = new sslib.SensorService(rpcH, data, id, driverInterface);
+                        regFunc(service);
+                        services[id] = service;
+                        break;
+                    case 'unregister':
+                        console.log("unregister");
+                        var service = services[id]
+                        unregFunc(service);
+                        delete services[id];
+                        break;
+
+Get some initial static actuator data:
+         param params is unused
+         param successCB Issued when actuator configuration succeeded.
+         param errorCB Issued if actuator configuration fails.
+        
+        this.getStaticData = function (params, successCB, errorCB){
+            var tmp = {};
+            tmp.range = this.range;
+            tmp.unit = this.unit;
+            tmp.vendor = this.vendor;  
+            tmp.version = this.version;
+            successCB(tmp);
+        };
+
+Interface for handling IOT drivers:
+     It is supposed that this interface is loaded by the actuator and/or sensor api.
+     param sensorActuator identifies if this is instantiated by the actuator or sensor api
+     param listener listener of the sensor/actuator api to be called when needed
+     
+    var driverInterface = function() {
+
+        function loadDrivers() {
+            var driverHandles = fs.readdirSync(moduleLocation);
+            for(var i in driverHandles) {
+                if(driverHandles[i].indexOf("webinos-driver-") == 0){
+                    if(loadedDrivers.indexOf(driverHandles[i]) == -1){
+                        try {
+                            var driverHandle = require(driverHandles[i]);
+                            var drivers = driverHandle.getDrivers();
+                            for(var j in drivers){
+                                driversList[newDriverId] = drivers[j];
+                                driversList[newDriverId].init(newDriverId, register, remove,  command);
+                                newDriverId++;
+                            }
+                            loadedDrivers.push(driverHandles[i]);
+                            console.log("Successfully loaded module ["+driverHandles[i]+"]");
+                        }
+                        catch(e) {
+                            console.log('Error: cannot load driver handle ' + driverHandles[i]);
+                            console.log(e.message);
+                        }
+                    }
+                }
+            }
+            driversLoaded = true;
+        }
+
+The listener function (implmeted in the api) has the signature:
+             listener(DOMString cmd, int id, DOMString data) where
+             cmd is the command for (register, data, ...)
+             id is the is of the element(it's assigned at registration time)
+             data are data (their value depend on the command)
+
+ this.connect = function (sensorActuator, listener) {       
+            apiListener[sensorActuator] = listener;
+        }
+
+        this.sendCommand = function(cmd, elementId, data, errorCB, successCB) {
+            handlers[elementId] = {succCB : successCB, errCB : errorCB};
+            driversList[elementList[elementId].driverId].execute(cmd, elementId, data, handleError, handleSuccess);
+        }
+
+Register a new element (sensor or actuator):
+         This function is called from the driver
+         param driverId the id of the driver calling the function
+         param sensorActuator specify if it's a sensor(0) or an actuator(1)
+         param type the type of sensor/actuator (eg light, temperature, OBD)
+         
+        function register(driverId, sensorActuator, info) {
+            var newElement = {};
+            newElement.driverId = driverId;
+            newElement.sensorActuator = sensorActuator;
+            newElement.type = info.type;
+            elementList[newElementId] = newElement;
+            //Sending up the register command; in this case data is the type of sensor/actuator
+            if(apiListener[sensorActuator] != null) {
+                (apiListener[sensorActuator])('register', newElementId, info);
+                return newElementId++;
+            }
+            else {
+                //api not present - return error
+                if(sensorActuator == 0)
+                    console.log("Error during sensor's init. Please verify that your PZP has webinos-api-sensors module");
+                else if(sensorActuator == 1)
+                    console.log("Error during actuator's init. Please verify that your PZP has webinos-api-actuator module");
+                
+                return -1;
+            };
+        }
+
+Receives a command from the driver and sends it to the api
+         param cmd is the command for (register, data, ...)
+         param id Identifier of the sensor sending the command
+         param data Data of the command
+         
+        function command(cmd, id, data) {
+            //console.log('command '+cmd+', id is '+id+', data is '+data);
+            (apiListener[elementList[id].sensorActuator])(cmd, id, data);
+        }
