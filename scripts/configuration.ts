@@ -38,8 +38,8 @@ module Configuration {
             specificationName: "actuators",
             keywords: "actuator, sensors, iot, obd, temperature, light"
         }, {
-            name: "Web Notifications",
-            repositoryName: "webinos-api-webNotifications",
+            name: "Web Notification",
+            repositoryName: "webinos-api-webNotification",
             specificationName: "notifications",
             keywords: "instant notifications, user interaction"
         }, {

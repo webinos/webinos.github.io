@@ -1,0 +1,35 @@
+TODO: Add examples on how to use the API
+
+Code Snippet
+Constructor
+•	Param rpcHandler is a handler for functions that use RPC to deliver their result.
+•	Param params parameters to initialize the service and then to Inherit from RPCWebinosService.
+
+The service declaration
+     
+     var WebNotificationModule = function(rpcHandler, params) {
+       
+        this.base = RPCWebinosService;
+        this.base({
+            api:'http://webinos.org/api/notifications',
+            displayName:'Web Notification',
+            description:'Web Notification API'
+        });
+
+        this.pzp = rpcHandler.parent;
+    };
+  
+•	param params consists of Array with parameters.
+•	param successCB does a Success callback.
+•	param errorCB does an Error callback.
+•	param objectRef refers to the RPC object reference.
+
+The declaration of the notify code on the pzp
+    
+    WebNotificationModule.prototype.notify = function(params, successCB, errorCB, objectRef) {
+        console.log("notify was invoked");
+        console.log(params);
+        ……..
+        ……..
+    }
+
