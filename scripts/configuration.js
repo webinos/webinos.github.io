@@ -6,7 +6,7 @@ var Configuration;
             name: "Contacts",
             repositoryName: "webinos-api-contacts",
             specificationName: "contacts",
-            keywords: ""
+            keywords: "gmail, people, address, email, outlook, thunderbird"
         },
         {
             name: "Vehicle",
