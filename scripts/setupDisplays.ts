@@ -57,7 +57,7 @@ module SetupDisplays {
             $routeProvider.when(rootAction + ':itemName/:tab?', {
                     templateUrl: '/templates/displayItem.html',
                     controller: ['$scope', '$routeParams', '$filter', '$location', 'titleSetter', 'activeSection', function ($scope, $routeParams, $filter, $location, titleSetter, activeSection) {
-                        var results: IDisplayItemMeta[] = $filter('filter')(Configuration[sectionName], $routeParams.itemName);
+                        var results: IDisplayItemMeta[] = $filter('filter')(Configuration[sectionName], { name: $routeParams.itemName });
                         if (results.length != 1) $location.path(rootAction);
                         var item = results[0];
                         $scope.activeTab = $routeParams.tab ? $routeParams.tab : "descr";
@@ -79,7 +79,7 @@ module SetupDisplays {
         });
 
         var sideMenuLinks: INavigationItem = {
-            link: sectionName,
+            link: '/' + sectionName,
             text: sectionName + " reference",
             sectionName: sectionName,
             subItems: []

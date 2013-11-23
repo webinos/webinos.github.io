@@ -143,9 +143,9 @@ var Configuration;
     ];
 
     if (typeof (exports) !== "undefined") {
-        exports["APIs"] = APIs;
-        exports["Core"] = Core;
-        exports["Platform"] = Platform;
+        exports["APIs"] = Configuration.APIs;
+        exports["Core"] = Configuration.Core;
+        exports["Platform"] = Configuration.Platform;
     }
 })(Configuration || (Configuration = {}));
 //# sourceMappingURL=configuration.js.map

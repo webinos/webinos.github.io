@@ -67,7 +67,7 @@ var SetupDisplays;
                     'titleSetter',
                     'activeSection',
                     function ($scope, $routeParams, $filter, $location, titleSetter, activeSection) {
-                        var results = $filter('filter')(Configuration[sectionName], $routeParams.itemName);
+                        var results = $filter('filter')(Configuration[sectionName], { name: $routeParams.itemName });
                         if (results.length != 1)
                             $location.path(rootAction);
                         var item = results[0];
@@ -95,7 +95,7 @@ var SetupDisplays;
         });
 
         var sideMenuLinks = {
-            link: sectionName,
+            link: '/' + sectionName,
             text: sectionName + " reference",
             sectionName: sectionName,
             subItems: []
