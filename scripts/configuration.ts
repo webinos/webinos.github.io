@@ -25,7 +25,8 @@ module Configuration {
         }, {
             name: "File",
             repositoryName: "webinos-api-file",
-            //TODO: Multiple specs out of webinos http://www.w3.org/TR/FileAPI/ , http://www.w3.org/TR/file-writer-api/ , http://www.w3.org/TR/file-system-api/
+            // Specs are based on w3c http://www.w3.org/TR/FileAPI/, http://www.w3.org/TR/file-writer-api/, http://www.w3.org/TR/file-system-api/
+            // no need to embed them as the links are added in the Readme.md
             keywords: "local file systems, dropbox, virtual, read, writer, directories, files"
         }, {
             name: "App2App",
@@ -45,8 +46,8 @@ module Configuration {
         }, {
             name: "Device Orientation",
             repositoryName: "webinos-api-deviceOrientation",
-            //TODO: out of webinos
-            //specificationName: "http://www.w3.org/TR/2011/WD-orientation-event-20111201/",
+            // Specs are based on w3c http://www.w3.org/TR/2011/WD-orientation-event-20111201/
+            // no need to embed it as the link was added in the Readme.md
             keywords: "compass, calibration, motion"
         }, {
             name: "NFC",
@@ -65,7 +66,8 @@ module Configuration {
         }, {
             name: "Geolocation",
             repositoryName: "webinos-api-geolocation",
-            //TODO out of webinos specs 
+            // Specs are based on w3c http://www.w3.org/TR/2012/PR-geolocation-API-20120510/
+            // no need to embed it as the link was added in the Readme.md
             keywords: "latitude, longitude, altitude, accuracy, heading, speed"
         }, {
             name: "TV",
