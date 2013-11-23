@@ -18,9 +18,9 @@
         <li data-ng-class="{active: activeTab == 'example'}"><a data-ng-click="activeTab='example'">Examples</a></li>
     </ul>
     <div class="tab-panel">
-        <div data-ng-if="activeTab == 'descr'" data-md-include="{{repositoryName + '.Readme'}}"></div>
-        <div data-ng-if="specificationName && activeTab == 'specs'" class="iFrameContainer" data-specs-include="{{specificationName}}"></div>
-        <div data-ng-if="activeTab == 'example'" data-md-include="{{repositoryName + '.Examples'}}">3</div>
+        <div data-ng-if="activeTab == 'descr'" data-md-include="{{repositoryName + '.Readme'}}">Loading...</div>
+        <div data-ng-if="specificationName && activeTab == 'specs'" class="iFrameContainer" data-specs-include="{{specificationName}}">Loading...</div>
+        <div data-ng-if="activeTab == 'example'" data-md-include="{{repositoryName + '.Examples'}}">Loading...</div>
         <hr />
         <header>Discussion</header>
         <div id="disqus_thread"></div>
