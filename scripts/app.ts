@@ -52,10 +52,10 @@ module app {
         // Set the filtered items to bind on the menu
         for (var index = 0; index < $scope.SideNavigation.length; index++) {
             var item = $scope.SideNavigation[index];
-            item.filteredSubItems = item.subItems;
+            item.filteredSubItems= item.subItems;
             item.isFiltered = false;
             item.isVisible = function () {
-                return item.filteredSubItems.legth > 0;
+                return item.filteredSubItems.length > 0;
             }
         }
         // We will implement custom filtering

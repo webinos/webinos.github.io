@@ -56,7 +56,7 @@ var app;
             item.filteredSubItems = item.subItems;
             item.isFiltered = false;
             item.isVisible = function () {
-                return item.filteredSubItems.legth > 0;
+                return item.filteredSubItems.length > 0;
             };
         }
 

@@ -87,7 +87,8 @@ module SetupDisplays {
         for (var i = 0; i < items.length; i++) {
             sideMenuLinks.subItems.push({
                 link: rootAction + items[i].name,
-                text: items[i].name
+                text: items[i].name,
+                keywords: items[i].keywords
             });
         }
 
