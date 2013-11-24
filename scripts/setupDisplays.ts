@@ -65,7 +65,7 @@ module SetupDisplays {
                         activeSection(sectionName);
                         angular.extend($scope, item);
 
-                        Globals.LoadDisqus(activeSection + "_" + item.name);
+                        Globals.LoadDisqus(sectionName + "_" + item.name);
                     }]
                 }).when(rootAction, {
                         templateUrl: '/templates/' + sectionName+ '.html',
