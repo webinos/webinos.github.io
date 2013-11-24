@@ -39,6 +39,7 @@
     </Content>
     <TypeScriptCompile Include="scripts\setupDisplays.ts" />
     <Content Include="templates\APIs.html" />
+    <Content Include="templates\Platform.html" />
     <Content Include="templates\displayItem.html" />
     <Content Include="templates\Core.html" />
     <Content Include="ThirdParty\bootstrap\fonts\glyphicons-halflings-regular.svg" />

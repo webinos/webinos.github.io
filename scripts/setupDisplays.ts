@@ -52,6 +52,20 @@ module SetupDisplays {
     var RegisterSection = function (sectionName: string, items: IDisplayItemMeta[]) {
         var rootAction = "/" + sectionName + "/";
 
+        var sideMenuLinks: INavigationItem = {
+            link: '/' + sectionName,
+            text: sectionName + " reference",
+            sectionName: sectionName,
+            subItems: []
+        };
+        for (var i = 0; i < items.length; i++) {
+            sideMenuLinks.subItems.push({
+                link: rootAction + items[i].name,
+                text: items[i].name,
+                keywords: items[i].keywords
+            });
+        }
+
         Globals.RegisterSection(sectionName, function ($routeProvider, $locationProvider) {
 
             $routeProvider.when(rootAction + ':itemName/:tab?', {
@@ -73,24 +87,13 @@ module SetupDisplays {
                             titleSetter(sectionName);
                             activeSection(sectionName);
                             $scope.sectionName = sectionName;
+                            $scope.sectionItems = sideMenuLinks.subItems;
                         }]
                     });
 
         });
 
-        var sideMenuLinks: INavigationItem = {
-            link: '/' + sectionName,
-            text: sectionName + " reference",
-            sectionName: sectionName,
-            subItems: []
-        };
-        for (var i = 0; i < items.length; i++) {
-            sideMenuLinks.subItems.push({
-                link: rootAction + items[i].name,
-                text: items[i].name,
-                keywords: items[i].keywords
-            });
-        }
+       
 
         Globals.RegisterSideNavigationItem(sideMenuLinks);
 

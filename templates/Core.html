@@ -1,3 +1,7 @@
 ﻿<section>
     <div data-ng-bind="sectionName"></div>
+    <p>In this section you can find the following information:</p>
+    <ul>
+        <li  data-ng-repeat="item in sectionItems" ><a href="#!{{item.link}}">{{item.text}}</a></li>
+    </ul>
 </section>
