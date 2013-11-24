@@ -20,3 +20,4 @@ var fetchItems = function(listOfItems) {
 
 fetchItems(Configuration.APIs);
 fetchItems(Configuration.Core);
+fetchItems(Configuration.Platform);
