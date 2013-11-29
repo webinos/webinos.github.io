@@ -15,6 +15,12 @@ var Configuration;
             keywords: "CAN bus, odb, simulator, vehicle, obdsim, car"
         },
         {
+            name: "AppState Synchronisation",
+            repositoryName: "webinos-api-appstatesync",
+            specificationName: "appstatesync",
+            keywords: "shared state, application state"
+        },
+        {
             name: "File",
             repositoryName: "webinos-api-file",
             // Specs are based on w3c http://www.w3.org/TR/FileAPI/, http://www.w3.org/TR/file-writer-api/, http://www.w3.org/TR/file-system-api/

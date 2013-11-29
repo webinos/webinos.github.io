@@ -16,12 +16,16 @@ module Configuration {
             repositoryName: "webinos-api-contacts",
             specificationName: "contacts",
             keywords: "gmail, people, address, email, outlook, thunderbird"
-        },
-        {
+        }, {
             name: "Vehicle",
             repositoryName: "webinos-api-vehicle",
             specificationName: "vehicle",
             keywords: "CAN bus, odb, simulator, vehicle, obdsim, car"
+        }, {
+            name: "AppState Synchronisation",
+            repositoryName: "webinos-api-appstatesync",
+            specificationName: "appstatesync",
+            keywords: "shared state, application state"
         }, {
             name: "File",
             repositoryName: "webinos-api-file",
