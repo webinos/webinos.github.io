@@ -5,7 +5,7 @@ We have created a [test page](https://github.com/webinos/webinos-dashboard/blob/
 The following opens the enroll to the PZH screen:
 
     function openEnroll(){
-        webinos.dashboard.open({module:'enrollment'}, function(){console.log("***enrollment opened");});
+        webinos.dashboard.open({module:'config'}, function(){console.log("***enrollment opened");});
     }
 
 The following allows the user to select a single service between the test api and the applauncher api.
@@ -17,3 +17,4 @@ The following allows the user to select a single service between the test api an
             }
     }, function(){console.log("***Dashboard opened");}).onAction(function(data){console.log("User selected something");});
 
+To see the above mentioned example in action, you can see the how the [POC Device orientation Application uses dashboard](https://github.com/webinos-apps/poc-DeviceOrientation/blob/master/src/resources/do.js#L14)
