@@ -1,35 +1,40 @@
-TODO: Add examples on how to use the API
+## How to use the API
 
-Code Snippet
-Constructor
-•	Param rpcHandler is a handler for functions that use RPC to deliver their result.
-•	Param params parameters to initialize the service and then to Inherit from RPCWebinosService.
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
 
-The service declaration
-     
-     var WebNotificationModule = function(rpcHandler, params) {
-       
-        this.base = RPCWebinosService;
-        this.base({
-            api:'http://webinos.org/api/notifications',
-            displayName:'Web Notification',
-            description:'Web Notification API'
-        });
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
 
-        this.pzp = rpcHandler.parent;
-    };
+      webinos.discovery.findServices(new ServiceType('http://webinos.org/api/notifications'), 
+                {onFound: function (service) {
+      }
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+
+## Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the web Notifications API. Bind to the found and select a service and use.
+This is required to make calls possible on the webinos service that we created.
+
+       // Without bind, functions cannot be invoked
+                              service.bindService( 
+                             {onBind: function (service) {
+                                     
+## Notification 
+      
+       interface Notification : EventTarget {
   
-•	param params consists of Array with parameters.
-•	param successCB does a Success callback.
-•	param errorCB does an Error callback.
-•	param objectRef refers to the RPC object reference.
+The Notification interface for showing notifications when created.
 
-The declaration of the notify code on the pzp
-    
-    WebNotificationModule.prototype.notify = function(params, successCB, errorCB, objectRef) {
-        console.log("notify was invoked");
-        console.log(params);
-        ……..
-        ……..
-    }
 
+            service.onclick = function (){ log("onclick") };  
+            //Callback called when the shown notification was clicked.
+                                                             
+           service.onclose = function (){ log("onclose") }; 
+           // Callback called when the notification was closed.
+                                                             
+           service.onshow = function (){ log("onshow") };
+           // Callback called when the notification is shown.
+                                                             
+           service.onerror = function (err){log("onerror: " + err + " @ service " + service.serviceAddress + "<br>")}; } 
+           // Callback called when the notification could not be shown.
+                               
