@@ -1,31 +1,36 @@
-TODO: Update with device orientation examples.
-Code Snippet
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
 
-Whenever an event fires a significant change in orientation occurs. In addition, when a new listener registers for the event, implementations fire the event as soon as sufficiently fresh data is available.
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
 
-    DeviceOrientationEvent = function(alpha, beta, gamma){
-        this.initDeviceOrientationEvent(alpha, beta, gamma);
-    }
+      webinos.discovery.findServices(new      
+             ServiceType('http://webinos.org/api/deviceorientation'), 
+             {onFound: function (service) {
+             //Stores the Service in a local variable
+             foundService = service
+      }
 
-Check if there are other listeners for a certain Event type. Find the relevant ObjectRefs and Remove it from the list of Listeners. 
+From this point we will refer to the found service as if it was stored in the foundService variable.
 
-    if(objectRefsDo[i][1] == params[1]){ 
-        registeredListeners++;
-    }
-    if(objectRefsDo[i][0] == params[0]){ 
-        objectRefsDo.splice(i,1);
-        console.log('object# ' + params[0] + " removed (" +  params[1] + ")");
-    }
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the Device Orientation API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
+                            
+           devOrientationToUse.bindService({onBind:function(){
+                                $('#messages').append('<li> DeviceOrientation API ' + 
+                                devOrientationToUse.api + ' bound.</li>');
+            }});
 
+Event types defines the possible data, which can be retrieved using the addEventListener.                                       The Process event.alpha, event.beta and event.gamma, gamma is the left-to-right tilt in degrees, where right is positive. beta is the front-to-back tilt in degrees, where front is positive
+alpha is the compass direction the device is facing in degrees and Applies the transform to the image.
 
-The default action of event presents the user agents with details of how to calibrate the compass. The event is cancelable, so that web sites can provide their own alternative calibration UI.
-- The property acceleration provides the acceleration of the hosting device relative to the Earth frame, expressed in the body frame.
-- The property accelerationIncludingGravity provides an acceleration equal and opposite to the acceleration due to gravity. 
-- The property rotationRate provides the rate of rotation of the hosting device in space. 
-- The property interval provides the interval at which data is obtained from the underlying hardware and must be expressed in milliseconds and remains to be a constant. 
-
-The device motion event has the following declaration:
-
-    DeviceMotionEvent = function(acceleration, accelerationIncludingGravity, rotationRate, interval){
-        this.initDeviceMotionEvent(acceleration, accelerationIncludingGravity, rotationRate, interval);
-    }
+            devOrientationToUse.addEventListener("deviceorientation", function(event) {
+                $('#lastevent').html('<li> Latest Orientation Event: alpha ' + event.alpha 
+                                                       + ' beta ' + event.beta + ' gamma ' + 
+               event.gamma + '</li>');                          
+                                                                var tiltLR = event.gamma;
+                                                                var tiltFB = event.beta;
+                                var dir = event.alpha;
+                  }              
+                                
+                                     
+                                   

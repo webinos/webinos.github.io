@@ -1,36 +1,40 @@
-Code Snippet
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
 
-Constructor
-Param rpcHandler is a handler for functions that use RPC to deliver their result.
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
 
-  var DiscoveryModule = function (rpcHandler) {
-    this.base = RPCWebinosService;
-    this.base({
-      api:'http://webinos.org/api/discovery',
-      displayName:'Discovery manager',
-      description:'Discovery manager that supports Bluetooth and WiFi discovery in Android'
-    });
-  }
-    
-   To find devices that support the specific service - Android WiFi MDNS.
-   param data is the Service type.
-   param successCallback Success callback.
-  
-  if (process.platform == 'android')
-  {
-    DiscoveryModule.prototype.DNSfindservice = function(data, successCallback){
-      dnsmodule.DNSfindservice(data, successCallback);   
-    }
-  }
-        
- 
-To find Bluetooth Heart Rate Monitor device. For Android OS only.
-    param data is the Service type.
-    param successCallback Success callback.
-   
-  if (process.platform == 'android')
-  {
-    DiscoveryModule.prototype.findHRM = function(data, successCallback){
-      hrmmodule.HRMfindservice(data, successCallback); 
-    }
-  }
+	 webinos.discovery.findServices(new ServiceType('http://webinos.org/api/discovery'),    
+         {onFound: function (service) {
+         //Stores the Service in a local variable
+         foundService = service
+         }                
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+If remoteService is false the findServices method will limit the search for services that are connected directly to the device (including Bluetooth, NFC, etc if available) or to the same local IP network.
+If remoteServices is true, the findServices method will extend the search for services outside the local IP network (including other PZHs).
+ 	
+                function startHRM()
+                       {
+                        var servicetype = {
+                                api: 0x00200000
+                        } 
+                        var text = document.getElementById("HRM");
+                        console.log("hrm value is:" + text.innerHTML);
+                        if(text.innerHTML==="StartHRM")
+                        {
+                                $('#HRM').text('StopHRM');
+                                try {
+                                        $('#loader').html("<img src='./img/ajaxloader.gif'>");
+                                }
+                                catch(e) {
+                                console.log("startHRM - loader: "+e.message);
+                                }
+                                try {
+                                        bluetoothService.findHRM(servicetype, onFound);                                         
+                                        console.log("startHRM - END");
+                                }
+                                catch(e) {
+                                console.log("startHRM - error: "+e.message);
+                                }
+
+                        }        

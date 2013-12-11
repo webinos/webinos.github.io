@@ -1,173 +1,108 @@
-Code Snippet
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
 
-Firstly a channel has to be created. The channel name is specified by a URN and has to follow these standards.
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
+	
+       webinos.discovery.findServices(new ServiceType('http://webinos.org/api/app2app'), 
+                {onFound: function (service) {
+        //Stores the Service in a local variable
+        foundService = service
+       }
 
-App2AppService.prototype.createChannel = function(params, successCallback, errorCallback, fromObjRef) {
-    var peerId = params.peerId;
-    var sessionId = params.sessionId;
-    var namespace = params.namespace;
-    var properties = params.properties;
-    var appInfo = params.appInfo;
-    var hasRequestCallback = params.hasRequestCallback;
-    var reclaimIfExists = (properties.reclaimIfExists === true);
+From this point we will refer to the found service as if it was stored in the foundService variable.
 
-first check if the peer is known to us
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the App2App API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
+	 
+                    service.bindService({
+                        onBind: function () {
+                            app2app = service;
+                        }
+                    });
 
-    if ( ! registeredPeers.hasOwnProperty(peerId)) {
-      errorCallback(respondWith("Peer with id " + peerId + " is not registered."));
-      return;
-    }
+Create channel and ask user to accept connections, app2appService is the app2app messaging service, discovered through the webinos Discovery API, that has been selected by the user. Callback invoked when a client want to connect to the channel. we allow all clients to connect (we could also for example check some application- specific information in the request.requestInfo to make a decision)
+  		 
+                     app2app.createChannel(
+                        config,
+                        function(request) {
+                            return confirm("Do you allow the client to connect?");
+                        },
+                        // callback invoked to receive messages
+                        function(message) {
+                            alert("The channel creator received a message: " + message.contents);
+                        },
+                        function(channelProxy) {
+                            creatorChannelProxy = channelProxy;
+                        },
+                        function(error) {
+                            alert("Could not create channel: " + error.message);
+                        }
+                );
+            });
 
-    var client = {};
-    client.peerId = peerId;
-    client.sessionId = sessionId;
-    client.hasRequestCallback = hasRequestCallback;
-    client.canDetach = (properties.canDetach === true);
-    client.proxyId = generateIdentifier();
+Send message to all connected clients (in our example this is only one)
 
-    if (registeredChannels.hasOwnProperty(namespace)) {
+                   clientChannelProxy.send(
+                        "client.ping",
+                        // callback invoked when the message is accepted for processing
+                        function(success) {
+                            // ok, but no action needed in our example
+                        },
+                        function(error) {
+                            alert("Could not send message: " + error.message);
+                        }
+                );
+            });
 
-•	If the channel already exists, check if request is from the same session if it is yes then assume reconnect. Refresh client bindings, but keep existing configuration.
+The namespace to search for (can include a wildcard "*" instead of "example" to search for all channels with prefix "org-webinos")No other zones need to be searched, only its own personal zone. Callback invoked on each channel found, we expect it to be called at most once because we do not use a wildcard. we directly request to connect to the channel callback invoked when the search query is accepted for processing is ok, but no action needed in our example
 
-      var existingChannel = registeredChannels[namespace];
-      if (sessionId === existingChannel.creator.sessionId && reclaimIfExists) {
-        console.log("Reconnecting channel creator to channel with namespace " + namespace);
-        existingChannel.clients = existingChannel.clients.filter(notEqualsClient(existingChannel.creator));
-        existingChannel.creator = client;
-        existingChannel.clients.push(client);
+             app2app.searchForChannels(
+                        $("#txtNamespace").val(),
+                                                [],
+                        function(channelProxy) {
+                                                        connectToChannel(channelProxy);
+                        },
+                        function(success) {
+                                                    },
+                        function(error) {
+                            alert("Could not search for channel: " + error.message);
+                        }
+                );
+            });
+        });
 
-        successCallback(existingChannel);
-        return;
+We can include application-specific information to the connect request. callback invoked to receive messages, only after successful connect. we directly reply to the message, and here we send a message to
+the sender only (i.e. the creator in this example). Callback invoked when the client is successfully connected (i.e. authorized by the creator)
 
-      } else {
-        errorCallback(respondWith("Channel already exists."));
-        return;
-      }
-    }
-
-    console.log("Create channel with namespace " + namespace);
-
-    var channel = {
-      creator: client,
-      namespace: namespace,
-      properties: properties,
-      appInfo: appInfo,
-      clients: [client]
-    };
-
-    registeredChannels[namespace] = channel;
-    successCallback(channel);
-  };
-
-•	Once a channel is create, one can connect to it. The following code snippet shows the connection to an already created channel
-
-App2AppService.prototype.connectToChannel = function(params, successCallback, errorCallback, fromObjRef) {
-    var connectRequest = {};
-    connectRequest.from = params.from;
-    connectRequest.namespace = params.namespace;
-    connectRequest.requestInfo = params.requestInfo;
-
-    if ( ! registeredPeers.hasOwnProperty(connectRequest.from.peerId)) {
-      errorCallback(respondWith("No registered peer found."));
-      return;
-    }
-
-    if ( ! registeredChannels.hasOwnProperty(connectRequest.namespace)) {
-      errorCallback(respondWith("Channel with namespace " + connectRequest.namespace + " not found."));
-      return;
-    }
-
-    var channel = registeredChannels[connectRequest.namespace];
-    var clients = channel.clients;
-
-    if (clients.some(equalsClient(connectRequest.from))) {
-      errorCallback(respondWith("Client already connected to channel."));
-      return;
-    }
-
-•	Sends connection request to channel creator, if callback is provided.
-•	If No request callback provided, it allows access by default.
-
-    if (channel.creator.hasRequestCallback) {
-      var peerRef = registeredPeers[channel.creator.peerId];
-
-      var rpc = this.rpcHandler.createRPC(peerRef, "handleConnectRequest", connectRequest);
-      this.rpcHandler.executeRPC(rpc,
-        function(success) {
-          registeredChannels[connectRequest.namespace].clients.push(connectRequest.from);
-          successCallback(connectRequest.from);
-        },
-        function(error) {
-          errorCallback(error);
+            function connectToChannel(channelProxy) {         
+            var requestInfo = {};
+            channelProxy.connect(
+                requestInfo,            
+                function(message) {
+                    alert("Client received message from creator: " + message.contents);            
+                    sendMessageTo(message.from, "client.pong", channelProxy);
+                },               
+                function(success) {
+                    // make the proxy available now that we are successfully connected
+                    clientChannelProxy = channelProxy;
+                },
+                function(error) {
+                    alert("Could not connect to channel: " + error.message);
+                }
+            );
         }
-      );
-    } else {
-      registeredChannels[connectRequest.namespace].clients.push(connectRequest.from);
-      successCallback(connectRequest.from);
-    }
-  };
 
+Send message to a single client only alternatively you can send to all clients on the channel using channelProxy.send, callback invoked when the message is accepted for processing
 
-•	When the user is connected to a channel, messages can be sent. As stated above, they can either be unicast or broadcast. This is specified by the client variable. When it is set, the message is send to the appropriate client, otherwise to everyone.
-
-App2AppService.prototype.sendToChannel = function(params, successCallback, errorCallback) {
-    var from = params.from;
-    var to = params.to;
-    var namespace = params.namespace;
-    var clientMessage = params.clientMessage;
-
-    if ( ! registeredPeers.hasOwnProperty(from.peerId)) {
-      errorCallback(respondWith("No registered peer found."));
-      return;
-    }
-
-    if (registeredChannels.hasOwnProperty(namespace)) {
-      successCallback();
-    } else {
-      errorCallback(respondWith("Destination channel with namespace " + namespace + " not found."));
-      return;
-    }
-
-    var channel = registeredChannels[namespace];
-
-•	check if client is connected, Once connected check if client can send (only creator can send on receive-only channel) then check if we should broadcast or unicast. If all ok then send to connected clients and do not send it to self.
-
-    if (channel.clients.every(notEqualsClient(from))) {
-      errorCallback(respondWith("Not connected to channel."));
-      return;
-    }
-
-    if (channel.properties.mode === MODE_RECEIVE_ONLY && notEqualsClient(from)(channel.creator)) {
-      errorCallback(respondWith("Not allowed to send on channel."));
-      return;
-    }
-
-    var toClients = (typeof to === "undefined" ? channel.clients : [to]);
-
-    console.log("Sending on channel " + namespace + " which has " + channel.clients.length + " connected clients (including the channel creator, if connected)");
-
-    toClients.forEach(function(toClient) {
-
-      if (notEqualsClient(from)(toClient)) {
-        var message = {};
-        message.from = from;
-        message.to = toClient;
-        message.namespace = namespace;
-        message.contents = clientMessage;
-
-        var toPeer = registeredPeers[toClient.peerId];
-
-        var rpc = this.rpcHandler.createRPC(toPeer, "handleChannelMessage", message);
-        this.rpcHandler.executeRPC(rpc,
-          function(success) {
-            console.log("Successfully sent message for " + namespace + " to client on peer " +
-              toClient.peerId);
-          },
-          function(error) {
-            console.log("Could not send message to client on peer " + toClient.peerId + ": " + error.message);
-          }
-        );
-      }
-    }, this);
-
-  };
+           function sendMessageTo(client, message, channelProxy) {
+            channelProxy.sendTo(
+                client,
+                message,
+                
+                function(success) {
+                    // ok, but no action needed in our example
+                },
+                function(error) {
+                    alert("Could not send message: " + error.message);
+                }
+            );

@@ -1,37 +1,49 @@
-Code Snippets
-## Constructor
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
 
-- Param rpcHandler is a handler for functions that use RPC to deliver their result.
-- Param params parameters to initialize the service and then to Inherit from RPCWebinosService.
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
 
-From the wrt:
+        webinos.discovery.findServices(new ServiceType('http://webinos.org/api/applauncher'), 
+        {onFound: function (service) {
+        //Stores the Service in a local variable
+         foundService = service
+         }
 
-    var WebinosAppLauncherModule = function(rpcHandler, params) {
-        // inherit from RPCWebinosService
-        this.base = RPCWebinosService;
-        this.base({
-            api:'http://webinos.org/api/applauncher',
-            displayName:'AppLauncher API',
-            description:'The AppLauncher API for starting applications.'
-        });
-    };
+From this point we will refer to the found service as if it was stored in the foundService variable.
 
-## To Launch an application
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the Applauncher API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
 
-- param successCB Success callback
-- param errorCB Error callback
-- param appURI URI of application to be launched.
+	 $('#bind').bind('click', function() {                        
+                        appLauncherToUse = launcherAPIS[$('#pzh_pzp_list option:selected').val()];
+                        appLauncherToUse.bind({onBind:function(){
+                        $('#messages').append('<li> AppLauncher API ' + appLauncherToUse.api + ' bound.</li>');
+                        }});
+                    }); 
 
-From the wrt:
+Define the launchApplication success callback.
 
-    WebinosAppLauncherModule.prototype.launchApplication = function (paramsIn, successCB, errorCB){
-        var appURI = paramsIn[0];
-        return impl.launchApplication(appURI,successCB, errorCB);
-    };
+		appLauncherToUse.launchApplication(
+                                function (ok){
+                                    if (ok) {
+                            $('#messages').append('<li> App launched </li>');
+                            } else {
+                            $('#messages').append('<li> App NOT launched </li>');
+                            }
 
-## Determines whether an app is available.
+Activate webinos application, if the application is installed in the device. appLauncherService is the AppLauncher service, discovered through the webinos Discovery API, that has been selected by the user
 
-    WebinosAppLauncherModule.prototype.appInstalled = function (params, successCB, errorCB){
-        var appURI = params[0];
-        return impl.appInstalled(appURI,successCB,errorCB);
-    };
+                 appLauncherToUse.appInstalled(
+                         function (appFound){
+                              if (appFound) {
+                                    $('#messages').append('<li> App is installed </li>');
+                            } else {
+                                    $('#messages').append('<li> App NOT installed </li>');
+                            }
+                                },
+                                function (){
+                                    $('#messages').append('<li> Error while checking app installation</li>');                           
+                                },
+                                appID
+                       );
+
