@@ -1,2 +1,41 @@
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
+
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
+
+ 	webinos.discovery.findServices(new ServiceType   
+               ('http://webinos.org/api/mediacontent'), {onFound:function (service) {
+         //Stores the Service in a local variable
+         foundService = service
+         }
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the Media Content API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
+
+ 	mediaContentService.bindService ({onBind:function (service) {
+              document.getElementById('position').innerHTML = "Bound MediaContent service";
+          }});
+
+
+
+    function folderDetails(folderDetails) {
+         "use strict";
+         var i;
+         document.getElementById('displayDetails').innerHTML = "";
+         var folderData = "<table border=2 cellpadding='2' cellspacing='2'>";
+         folderData += "<tr><th>ID</th><th>Path</th><th>Name</th><th>Type</th><th>Date</th></tr>";
+         for (i = 0; i < folderDetails.length; i = i + 1) {
+        folderData += "<tr><td>" + folderDetails[i].id + "</td>";
+        folderData += "<td>" + folderDetails[i].folderURI + "</td>";
+        folderData += "<td>" + folderDetails[i].title + "</td>";
+        folderData += "<td>" + folderDetails[i].storageType + "</td>";
+        folderData += "<td>" + folderDetails[i].modifiedDate + "</td></tr>";
+        }
+        folderData += "</table>";
+        document.getElementById('displayDetails').innerHTML = folderData;
+    }
+
 TODO
 

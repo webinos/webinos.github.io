@@ -1,1 +1,44 @@
 For a usage of this API you can see [hub-webinosMediaCenter](https://github.com/webinos/hub-webinosMediaCenter/blob/master/webinosTV/lib/service/payment.coffee)
+
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
+
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
+
+ 	webinos.discovery.findServices(new ServiceType   
+               ('http://webinos.org/api/payment/mockwallet'), {onFound:function (service) {
+         //Stores the Service in a local variable
+         foundService = service
+         }
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the Media Content API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
+
+Pay method Performs the payment using a payment provider. The bill will be charged to the shopper.
+Depending on the implementation of the actual payment service, this function might cause the checkout screen of the payment service provider to be displayed.
+            
+                paymentService.pay(
+                           function (proofOfPurchase) {
+                                displayStatus("Payment: "+proofOfPurchase);                               
+                            },
+                            function (error) {
+                                if(typeof(error)=='object')displayError(error.code+" : "+error.message);
+                                else displayError("Unknown error condition");
+                            },
+                            function (challengetype) {
+                                displayStatus("Challenge: "+challengetype); 
+                            },
+                            null,
+                            bill,
+                            "UniqueCustomerID",
+                            "UniqueSellerID"
+                  );      
+
+Displays the status of the Payment made.
+ 
+                function displayStatus(statusText){
+                      document.getElementById("messages").innerHTML = "Status: "+statusText;
+                 }
+
