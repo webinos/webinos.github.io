@@ -1,1 +1,82 @@
 Most of the [app challenge applications](https://github.com/webinos-apps/webinos-appChallenge) use this API
+
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
+
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
+
+ 	webinos.discovery.findServices(new ServiceType   
+               ('http://webinos.org/api/events'), {onFound:function (service) {
+         //Stores the Service in a local variable
+         foundService = service
+         }
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the Events API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
+   
+       eventAPIToUse.bind({onBind:function(){
+           $('#messages').append('<li> Events API ' + eventAPIToUse.api + ' bound.</li>');
+           $('#messages').append('<li> My APP ID ' + eventAPIToUse.myAppID + ' </li>');
+                        }});
+
+Called right after the moment in time specified by the "referenceTimeout" attribute is reached and the given primary recipient did not successfully sent back at least one event in response to the given event.
+     
+      callback.onTimeout = function (event, recipient) {
+        //params.event, params.recipient
+                $('#messages').append('<li> onTimeout()</li>');
+        };
+
+Called as soon as unsuccessful event delivery has been reported w.r.t. a given recipient.
+
+      callback.onError = function (event, recipient, error) {
+        //params.event, params.recipient, params.error
+                $('#messages').append('<li> onError() ' + error + " recipient: " + recipient + '</li>');
+        };
+
+Called as soon as successful event delivery has been reported by a given recipient or if the recipient notifies that it did already receive an event with the same ID.
+
+      callback.onDelivery = function (event, recipient) {
+        //params.event, params.recipient
+                $('#messages').append('<li> onDelivery() at ' + recipient + '</li>');
+        };
+
+Called right after the event has been put into the Local Event Cache for later transmission (e.g., when trying to send it to a remote entity but no connectivity is currently available).
+ 
+      callback.onCaching = function (event) {
+                //params.event
+                $('#messages').append('<li> onCaching()</li>');
+        };
+
+Called right after the event has been put into the Local Event Cache for later transmission (e.g., when trying to send it to a remote entity but no connectivity is currently available).
+ 
+      callback.onCaching = function (event) {
+                //params.event
+                $('#messages').append('<li> onCaching()</li>');
+        };
+
+Allows to pass a set of status monitoring callbacks to event sending/forwarding methods.
+
+      callback.onSending = function (event, recipient) {
+        //params.event, params.recipient
+                $('#messages').append('<li> onSending() to ' + recipient + '</li>');
+        };
+   
+Creates a new event.
+
+      eventAPIToUse.createWebinosEvent();
+
+Sends the event and specifies the onMsgError callback for handling error delivery notifications.
+  
+      evt.dispatchWebinosEvent({onError: onMsgError});
+   
+Registers an event listener.
+ 
+     listenerID = eventAPIToUse.addWebinosEventListener(function (event)
+
+Unregisters an event listener.
+ 
+     eventAPIToUse.removeWebinosEventListener(listenerID);
+
+
