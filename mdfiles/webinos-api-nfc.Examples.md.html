@@ -1,1 +1,59 @@
-Check out the [test bed code](https://github.com/webinos/webinos-api-nfc/blob/master/test/web_root/nfc.html) for a complete example
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
+
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
+
+ 	webinos.discovery.findServices(new ServiceType   
+               ('http://webinos.org/api/nfc), {onFound:function (service) {
+         //Stores the Service in a local variable
+         foundService = service
+         }
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+
+##Bind
+Before using a service, you need to bind to it. Binding is similar on all services. The following code shows how to bind to the NFC API. Bind to the found and select a service and use. This is required to make calls possible on the webinos service that we created.
+            
+         recentService.bindService({
+                                onBind : function(service) {
+                                    logMessage('NFC API ' + service.api
+                                            + ' bound.');
+                                }
+                            });
+
+addTextTypeListener is a method for registering a call back for NFC tags with NDEF text records.
+
+           recentService.addTextTypeListener(listener1, function() {
+                        listeners[++handle] = new Listener("T", null, listener1);
+                        $('#NfcListeners').append($('<option>textListener1</option>').attr('value', handle.toString()));
+                    });
+
+addUriTypeListener is a method for registering a call back for NFC tags with NDEF URI records.
+
+           recentService.addUriTypeListener(scheme, listener1, function() {
+                        listeners[++handle] = new Listener("U", scheme, listener1);
+                        $('#NfcListeners').append($('<option>uriListener1</option>').attr('value', handle.toString()));
+                    });
+
+addMimeTypeListene  is a method for registering a call back for NFC tags with NDEF MIME content records with a specific MIME type, e.g. "text/vcard", which is used for an electronic equivalent of a business card.This is a method for registering a call back for NFC tags with NDEF URI records.
+
+           recentService.addMimeTypeListener(mimeType, listener1, function() {
+                        listeners[++handle] = new Listener("M", mimeType, listener1);
+                        $('#NfcListeners').append($('<option>mimeListener1</option>').attr('value', handle.toString()));
+                    });
+
+shareTag is a method for setting a device into a sharing mode for pushing an NDEF message to another NDEF device.
+
+          $('#shareTag').bind('click', function() {
+                    var ndefMsg = [];
+                    ndefMsg[0] = recentService.textRecord("shared tag", "en");
+                    recentService.shareTag(ndefMsg);
+                });
+                
+unshareTag is a method is used after the shareTag method, and sets the device back to the default mode in which it listens for the presence of NFC tags.
+
+           $('#unshareTag').bind('click', function() {
+                    recentService.unshareTag();
+                });
+
+                

@@ -18,24 +18,61 @@ Before using a service, you need to bind to it. Binding is similar on all servic
               document.getElementById('position').innerHTML = "Bound MediaContent service";
           }});
 
+Gets a list of folders. This method returns (via callback) a list of folder objects. To obtain a list of media items in a specific folder. Lists out Folder details, folder id, URI, storage type, title and modifieddate.
 
-
-    function folderDetails(folderDetails) {
-         "use strict";
-         var i;
-         document.getElementById('displayDetails').innerHTML = "";
-         var folderData = "<table border=2 cellpadding='2' cellspacing='2'>";
-         folderData += "<tr><th>ID</th><th>Path</th><th>Name</th><th>Type</th><th>Date</th></tr>";
-         for (i = 0; i < folderDetails.length; i = i + 1) {
+      function folderDetails(folderDetails) {
+      "use strict";
+      var i;
+      document.getElementById('displayDetails').innerHTML = "";
+      var folderData = "<table border=2 cellpadding='2' cellspacing='2'>";
+      folderData += "<tr><th>ID</th><th>Path</th><th>Name</th><th>Type</th><th>Date</th></tr>";
+      for (i = 0; i < folderDetails.length; i = i + 1) {
         folderData += "<tr><td>" + folderDetails[i].id + "</td>";
         folderData += "<td>" + folderDetails[i].folderURI + "</td>";
         folderData += "<td>" + folderDetails[i].title + "</td>";
         folderData += "<td>" + folderDetails[i].storageType + "</td>";
         folderData += "<td>" + folderDetails[i].modifiedDate + "</td></tr>";
-        }
-        folderData += "</table>";
-        document.getElementById('displayDetails').innerHTML = folderData;
+      }
+      folderData += "</table>";
+      document.getElementById('displayDetails').innerHTML = folderData;
     }
 
-TODO
+Lists out all the album, artists, duration, track number in the folder.
 
+     if (folderDetails[i].type.toUpperCase() === "VIDEO") {
+          folderData += "<td>" + folderDetails[i].album + "</td>";
+          folderData += "<td>" + folderDetails[i].artists + "</td>";
+          folderData += "<td>" + folderDetails[i].duration + "</td>";
+          folderData += "<td>" + folderDetails[i].width + "</td>";
+          folderData += "<td>" + folderDetails[i].height + "</td>";
+        }
+
+Displays details with the extension gif, jpg, png, svg if not found then looks for mp3, ogg otherwise looks for wav, mp4 for video data
+
+     if (ext === ".gif" || ext === ".jpg" || ext === ".png" || ext === ".svg") {
+              document.getElementById('displayDetails').innerHTML +=
+                      "<img src='data:image/"+type+";base64,"+contents.contents+"'/>" ;
+            } else if (ext === ".mp3" || ext === ".ogg") {
+              document.getElementById('displayDetails').innerHTML +=
+                      "<audio controls src='data:audio/"+type+";base64,"+contents.contents+"'/>" ;
+            } else if (ext === ".wav" || ext === ".mp4") {
+              document.getElementById('displayDetails').innerHTML +=
+                      "<video source src='data:video/"+type+";base64,"+contents.contents+"'/>" ;
+
+            }
+
+Lists out Folder details that contains pictures.
+ 
+       if (folderDetails[i].title === "Pictures" || folderDetails[i].title === "My Pictures") {
+              var params = {};
+              params.folderId = folderDetails[i].id;
+              mediaContentService.findItem(function(folderDetails) {
+                for (var i = 0; i < folderDetails.length; i = i + 1) {
+                  params = {};
+                  params.fileName = folderDetails[i].title;
+                  document.getElementById('displayDetails').innerHTML = "";
+                  mediaContentService.getContents(function(contents) {
+                    if (contents.contents) {
+                      document.getElementById('displayDetails').innerHTML +=
+                              "<img src='data:image/png;base64,"+contents.contents+"'/>" ;
+                    }

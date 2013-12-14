@@ -1,1 +1,65 @@
-TODO
+In order to get a reference to the API, you will have to discover the API. You can use the dashboard to allow the user pick the service for you, but you can also do this manually in code (see the API description for the dashboard use).
+
+##Service Discovery
+This is the list of URIs used to declare this API's features, for use in the widget config.xml and as identifier for service type in service discovery functionality. For each URI, the list of functions covered is provided.
+
+ 	webinos.discovery.findServices(new ServiceType   
+               ('http://webinos.org/api/tv'), {onFound:function (service) {
+         //Stores the Service in a local variable
+         foundService = service
+         }
+
+From this point we will refer to the found service as if it was stored in the foundService variable.
+tvService is the TV service, discovered through the webinos Discovery API, that has been selected by the user. Get a list of all available TV sources.
+
+       if(isServiceDiscovered('TVManager','TVManager is not discovered yet.')){
+                                        var successCallback = function(sources){
+                                                //clear old sources.
+                                                $('#channels').html('');
+                                                channelMapByName={};
+                                                $(sources).each(function(tvsource_ix,tvsource_el){
+                                                        $('#channels').append($('<li>TVSource.name: 
+                                               '+tvsource_el.name+'</li>'));
+                                                                            
+                                     $(tvsource_el.channelList).each(function(channel_ix,channel_el){
+                                                               
+                                    $('#channels').append($('<li>'+channel_el.name+'<button id="setChannel" name="'+tvsource_el.name+channel_el.name+'">setChannel</button></li>'));
+                                                                channelMapByName[tvsource_el.name+channel_el.name]={tvsource:tvsource_el,channel:channel_el};
+                                                                log('CHANNEL FOUND: '+channel_el.name);
+                                                        });
+
+
+Event that fires when the channel is changed. Changing channels could also be invoked by other parties, e.g. a hardware remote control. A channelchange event will be fired any time a channel is being changed.
+
+        if(isServiceDiscovered('TVManager','TVManager is not discovered yet.')){
+                                var channelChangeHandler = function(channel){
+                                        log('EVENT: CHANNEL CHANGED: '+JSON.stringify(channel));
+                                        updateUI(channel.tvsource.name,channel.name,channel.stream);
+                                };
+                                discoveredServices['TVManager'].display.addEventListener('channelchange', channelChangeHandler, false);
+                                log("EVENTLISTENER registered.");
+                        }
+
+
+Switches the channel natively on the TV (same as when a hardware remote control would be used).
+
+     if(isServiceDiscovered('TVManager','TVManager is not discovered yet.')){                                        
+                                        var clickedChannel =    
+     channelMapByName[$(clickedButton).attr('name')];
+                                        
+                                        if(clickedChannel){
+                                        
+                                        var successCallback = function(channel){
+                                                console.log('setChannel ok.');
+                                                log('CHANNEL CHANGED: '+JSON.stringify(channel));
+                                                
+     updateUI(channel.tvsource.name,channel.name,channel.stream);
+                                        };
+                                        var errorCallback = function(){
+                                                console.log('setChannel failed.');
+                                        };
+                                        discoveredServices['TVManager'].display.setChannel(/*Channel*/ clickedChannel.channel, /*TVDisplaySuccessCB*/ successCallback, /*TVErrorCB*/ errorCallback);
+                                        }else{
+                                                console.log("ERROR: channel "+$(clickedButton).attr('name')+" not found.");
+                                        }
+                                }
