@@ -43,8 +43,12 @@ module Globals {
         (function () {
             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
             dsq.src = 'http://angularjs.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] ||
-                document.getElementsByTagName('body')[0]).appendChild(dsq);
+            var container: Node;
+            if (document.getElementsByTagName('head')[0])
+                container = document.getElementsByTagName('head')[0];
+            else
+                container = document.getElementsByTagName('body')[0];
+            container.appendChild(dsq);
         })();
         angular.element(document.getElementById('disqus_thread')).html('');
     };

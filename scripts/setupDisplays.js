@@ -13,8 +13,7 @@ var SetupDisplays;
 
     // Register markdown directive
     myModule.directive('mdInclude', [
-        'Showdown',
-        function (Showdown) {
+        'Showdown', function (Showdown) {
             return {
                 restrict: 'AE',
                 link: function (scope, element, attrs) {
@@ -31,13 +30,11 @@ var SetupDisplays;
                     }
                 }
             };
-        }
-    ]);
+        }]);
 
     // Register specs directive
     myModule.directive('specsInclude', [
-        'loader',
-        function (loader) {
+        'loader', function (loader) {
             return {
                 restrict: 'AE',
                 link: function (scope, element, attrs) {
@@ -50,8 +47,7 @@ var SetupDisplays;
                     element.html(iFrame);
                 }
             };
-        }
-    ]);
+        }]);
 
     var RegisterSection = function (sectionName, items) {
         var rootAction = "/" + sectionName + "/";
@@ -74,13 +70,7 @@ var SetupDisplays;
             $routeProvider.when(rootAction + ':itemName/:tab?', {
                 templateUrl: '/templates/displayItem.html',
                 controller: [
-                    '$scope',
-                    '$routeParams',
-                    '$filter',
-                    '$location',
-                    'titleSetter',
-                    'activeSection',
-                    function ($scope, $routeParams, $filter, $location, titleSetter, activeSection) {
+                    '$scope', '$routeParams', '$filter', '$location', 'titleSetter', 'activeSection', function ($scope, $routeParams, $filter, $location, titleSetter, activeSection) {
                         var results = $filter('filter')(Configuration[sectionName], { name: $routeParams.itemName });
                         if (results.length != 1)
                             $location.path(rootAction);
@@ -91,21 +81,16 @@ var SetupDisplays;
                         angular.extend($scope, item);
 
                         Globals.LoadDisqus(sectionName + "_" + item.name);
-                    }
-                ]
+                    }]
             }).when(rootAction, {
                 templateUrl: '/templates/' + sectionName + '.html',
                 controller: [
-                    '$scope',
-                    'titleSetter',
-                    'activeSection',
-                    function ($scope, titleSetter, activeSection) {
+                    '$scope', 'titleSetter', 'activeSection', function ($scope, titleSetter, activeSection) {
                         titleSetter(sectionName);
                         activeSection(sectionName);
                         $scope.sectionName = sectionName;
                         $scope.sectionItems = sideMenuLinks.subItems;
-                    }
-                ]
+                    }]
             });
         });
 

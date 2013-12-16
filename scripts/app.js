@@ -75,7 +75,7 @@ var app;
                     item.filteredSubItems = $filter('filter')(item.subItems, function (item) {
                         if (item.keywords)
                             return (item.text + item.keywords).toUpperCase().indexOf(val.toUpperCase()) != -1;
-else
+                        else
                             return item.text.toUpperCase().indexOf(val.toUpperCase()) != -1;
                     });
                 }
@@ -88,7 +88,7 @@ else
             msg = "webinos Docs - " + msg;
             if (!app.appScope.$$phase)
                 app.appScope.$apply('title = "' + msg + '"');
-else
+            else
                 app.appScope["title"] = msg;
         };
     });
@@ -96,7 +96,7 @@ else
         return function (sectionName) {
             if (!app.appScope.$$phase)
                 app.appScope.$apply('currentSection = "' + sectionName + '"');
-else
+            else
                 app.appScope["currentSection"] = sectionName;
         };
     });
