@@ -1,5 +1,6 @@
 /// <reference path="Globals.ts" />
 /// <reference path="../ThirdParty/DefinitelyTyped/angularjs/angular.d.ts" />
+
 var app;
 (function (app) {
     // I have defined data-ng-app="app" in the index.html and thus I can use the controller as global
@@ -84,12 +85,16 @@ var app;
     }
 
     myModule.factory('titleSetter', function () {
-        return function (msg) {
-            msg = "webinos Docs - " + msg;
+        return function (origmsg) {
+            var msg = "webinos Docs - " + origmsg;
             if (!app.appScope.$$phase)
                 app.appScope.$apply('title = "' + msg + '"');
             else
                 app.appScope["title"] = msg;
+            ga('send', 'pageview', {
+                'page': origmsg,
+                'title': msg
+            });
         };
     });
     myModule.factory('activeSection', function () {

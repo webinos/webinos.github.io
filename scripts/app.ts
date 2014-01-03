@@ -1,6 +1,8 @@
 /// <reference path="Globals.ts" />
 /// <reference path="../ThirdParty/DefinitelyTyped/angularjs/angular.d.ts" />
 
+declare var ga;
+
 module app {
     // I have defined data-ng-app="app" in the index.html and thus I can use the controller as global
     var myModule = angular.module("app", ['ngRoute','displays']);
@@ -86,10 +88,14 @@ module app {
  
 
     myModule.factory('titleSetter', function () {
-        return function (msg) {
-            msg = "webinos Docs - " + msg;
+        return function (origmsg) {
+            var msg = "webinos Docs - " + origmsg;
             if (!appScope.$$phase) appScope.$apply('title = "' + msg + '"');
             else appScope["title"] = msg;
+            ga('send', 'pageview', {
+                'page': origmsg,
+                'title': msg
+            });
         }
     });
     myModule.factory('activeSection', function () {

@@ -77,7 +77,6 @@ data-ng-app="app" data-ng-controller="main">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script> 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular-route.min.js"></script> 
     <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script> 
-
     <script src="scripts/configuration.js"></script>
     <script src="scripts/Globals.js"></script>
     <script src="scripts/setupDisplays.js"></script>
@@ -85,6 +84,18 @@ data-ng-app="app" data-ng-controller="main">
     <script type="text/javascript">
         // Notify app that everything is loaded
         $(app.loadComplete);
+        // Load analytics
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        // Enable tracking even from local copies
+        ga('create', 'UA-29483202-3', {
+            'cookieDomain': 'none'
+        });
+        ga('send', 'pageview');
     </script>
 </body>
 </html>
