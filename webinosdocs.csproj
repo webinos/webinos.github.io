@@ -30,6 +30,7 @@
     </Content>
     <Content Include="css\images\loader.gif" />
     <Content Include="css\images\webinos_logo.png" />
+    <Content Include="favicon.ico" />
     <Content Include="index.html" />
     <TypeScriptCompile Include="scripts\Definitions\Showdown.d.ts" />
     <TypeScriptCompile Include="scripts\configuration.ts" />
